@@ -1,0 +1,36 @@
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        # Time Complexity: O(n^2).
+        
+        # Space complexity: O(n) 
+
+        # Approach:
+        #Sort the array to facilitate skipping duplicates and using two pointers.
+        # Iterate through the array with index i, using two pointers to find pairs that sum with nums[i] to 0.
+        # Skip duplicate values for i, left, and right to ensure unique triplets.
+        nums.sort()
+        triplets = []
+        targetSum = 0
+        for i in range(len(nums) - 2):
+            # Skip duplicate values for `i`
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            left = i + 1
+            right = len(nums) - 1
+            while left < right:
+                currSum = nums[i] + nums[left] + nums[right]
+                if currSum == targetSum:
+                    triplets.append([nums[i], nums[left], nums[right]])
+                    # Skip duplicate values for `left`
+                    while left < right and nums[left] == nums[left + 1]:
+                        left += 1
+                    # Skip duplicate values for `right`
+                    while left < right and nums[right] == nums[right - 1]:
+                        right -= 1
+                    left += 1
+                    right -= 1
+                elif currSum > targetSum:
+                    right -= 1
+                elif currSum < targetSum:
+                    left += 1
+        return triplets
